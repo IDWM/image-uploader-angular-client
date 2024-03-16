@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { TextInputComponent } from './_components/text-input/text-input.component';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { DropzoneInputComponent } from './_components/dropzone-input/dropzone-input.component';
+import { PostService } from './_services/post.service';
+import { Post } from './_models/post';
 import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { TextInputComponent } from './_components/text-input/text-input.component';
+import { DropzoneModule } from './_modules/dropzone.module';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -18,22 +21,29 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     ReactiveFormsModule,
     TextInputComponent,
-    DropzoneInputComponent,
+    DropzoneModule,
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   formGroup: FormGroup = new FormGroup({});
+  posts$: Observable<Post[]> = new Observable<Post[]>();
+  fileSelected: boolean = false;
+  loading: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private postService: PostService,
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    this.loadPosts();
   }
 
   initializeForm(): void {
-    this.formGroup = this.formBuilder.nonNullable.group({
+    this.formGroup = this.formBuilder.group({
       title: [
         '',
         [
@@ -54,9 +64,34 @@ export class AppComponent implements OnInit {
     });
   }
 
-  uploadPost(): void {}
+  loadPosts(): void {
+    this.posts$ = this.postService.getPosts();
+  }
+
+  uploadPost(): void {
+    if (this.formGroup.valid) {
+      const formData = new FormData();
+      formData.append('title', this.formGroup.value.title);
+      formData.append('description', this.formGroup.value.description);
+      formData.append('image', this.formGroup.value.image);
+
+      this.loading = true;
+
+      this.postService.createPost(formData).subscribe(() => {
+        this.cancelUpload();
+        this.loadPosts();
+        this.loading = false;
+      });
+    }
+  }
 
   cancelUpload(): void {
     this.formGroup.reset();
+    this.fileSelected = false;
+  }
+
+  onFileSelected(file: File): void {
+    this.formGroup.patchValue({ image: file });
+    this.fileSelected = true;
   }
 }
