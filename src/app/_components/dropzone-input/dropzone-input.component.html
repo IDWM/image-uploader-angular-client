@@ -34,13 +34,13 @@
         SVG, PNG, JPG or GIF (MAX. 800x400px)
       </p>
     </div>
-    <input [id]="id" [type]="type" [formControl]="control" class="hidden" />
+    <input
+      [id]="id"
+      [type]="type"
+      [accept]="accept"
+      [multiple]="multiple"
+      (change)="fileChange($event)"
+      class="hidden"
+    />
   </label>
-
-  <p
-    *ngIf="control.value"
-    class="place-self-center text-sm text-green-600 dark:text-green-500"
-  >
-    Archivo cargado con éxito.
-  </p>
 </div>
