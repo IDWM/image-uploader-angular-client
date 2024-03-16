@@ -1,0 +1,32 @@
+<div>
+  <label
+    [for]="id"
+    class="mb-1 block text-sm font-medium text-gray-900 dark:text-white"
+    >{{ label }}</label
+  >
+
+  <input
+    [id]="id"
+    [type]="type"
+    [placeholder]="placeholder"
+    [formControl]="control"
+    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+  />
+
+  <div
+    *ngIf="control.touched && control.invalid"
+    class="mt-1 text-sm text-red-600 dark:text-red-500"
+  >
+    <p *ngIf="control.errors?.['required']">Campo obligatorio.</p>
+
+    <p *ngIf="control.errors?.['minlength']">
+      Debe contener mínimo
+      {{ control.errors?.["minlength"].requiredLength }} caracteres.
+    </p>
+
+    <p *ngIf="control.errors?.['maxlength']">
+      Debe contener máximo
+      {{ control.errors?.["maxlength"].requiredLength }} caracteres.
+    </p>
+  </div>
+</div>
