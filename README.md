@@ -1,27 +1,64 @@
-# ImageUploaderAngularClient
+# Image Uploader Angular Client Setup Guide
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
+This guide will help you set up the Image Uploader Angular client project using Node.js and NPM. Follow the steps below to get started:
 
-## Development server
+### 1. Clone the Project
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+```bash
+git clone <project-repository-url>
+```
 
-## Code scaffolding
+### 2. Navigate to the Project Directory
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+cd <project-folder>
+```
 
-## Build
+### 3. Install Angular
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Make sure you have Node.js installed. If not, download and install it from [Node.js Official Website](https://nodejs.org/).
 
-## Running unit tests
+Install Angular globally using NPM:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm install -g @angular/cli
+```
 
-## Running end-to-end tests
+### 4. Create "environments" Folder and Development Environment File
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Create a folder named "environments" inside the "src" folder of the project. Inside the "environments" folder, create a file named "environment.development.ts" with the following content:
 
-## Further help
+```typescript
+// environment.development.ts
+export const environment = {
+  production: false,
+  apiUrl: "URL_API",
+};
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Replace 'URL_API' with the actual URL of your API.
+
+### 5. Install Project Dependencies
+
+Run the following command to install project dependencies:
+
+```bash
+npm install
+```
+
+### 6. Serve the Application
+
+After installing dependencies, run the following command to serve the application:
+
+```bash
+ng serve -o
+```
+
+The `-o` flag opens the application in your default web browser automatically.
+
+### Additional Notes
+
+- Replace 'URL_API' in the environment file with your actual API URL.
+- If you're using different environments (e.g., production), create corresponding environment files (e.g., environment.production.ts) and adjust the configuration accordingly.
+
+For more information on Angular CLI and project setup, refer to the [Angular CLI Documentation](https://angular.io/cli).
